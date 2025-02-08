@@ -1,0 +1,436 @@
+;Помойка вырезанного
+
+;Вырезано
+[Trigger]
+nickname = Goto_Melissa_base_ms
+system = Br03
+Cnd_Timer = 1
+Act_NNIds = 459837
+Act_GiveObjList = Player, Melissa_Dock_Br03_02_Base
+
+[Trigger]
+nickname = Out_Zone_Base_for_Melissa
+system = Br03
+Cnd_DistVec = outside, Player, -4409, 0, 37325, 5000
+Act_ChangeState = FAIL, 459838
+
+[Trigger]
+nickname = Out_Zone_Base_for_Melissa_2
+system = Br03
+Cnd_DistVec = outside, Player, -4409, 0, 37325, 5000
+Act_ChangeState = FAIL, 459839
+
+[Trigger]
+nickname = In_Br03_02_Base_01
+system = Br03
+Cnd_LocEnter = Deck, Br03_02_Base
+Act_DeActTrig = Out_Zone_Base_for_Melissa
+Act_ActTrig = Out_Zone_Base_for_Melissa_2
+Act_ActTrig = In_bar_Br03_02_Base_01
+
+[Trigger]
+nickname = In_bar_Br03_02_Base_01
+system = Br03
+Cnd_LocEnter = Bar, Br03_02_Base
+Act_AddRTC = missions\M02\M002_Melissa_nrml.ini
+Act_ActTrig = Br03_02_bar_set_Sinclair_2
+
+[Trigger]
+nickname = Br03_02_bar_set_Sinclair_2
+Cnd_Timer = 1
+Act_AddRTC = missions\M02\M002_Melissa_nrml.ini
+Act_ActTrig = M002_Sinclair_msn_delay_2
+Act_ActTrig = CharSelect_Sinclair
+
+[Trigger]
+nickname = CharSelect_Sinclair
+system = Br03
+Cnd_CharSelect = sinclair, Bar, Br03_02_Base
+Act_ActTrig = CharSelect_Sinclair_MN
+
+[Trigger]
+nickname = CharSelect_Sinclair_MN
+system = Br03
+Cnd_Timer = 3
+Act_AdjAcct = 50000
+
+[Trigger]
+nickname = M002_Sinclair_msn_delay_2
+Cnd_Timer = 0.5
+Act_AddRTC = missions\M02\M002_Sinclair2_msn.ini
+Act_ActTrig = msn_Sinclair_accept_2
+repeatable = true
+
+[Trigger]
+nickname = msn_Sinclair_accept_2
+system = Br03
+Cnd_MsnResponse = accept
+Act_DeActTrig = M002_Sinclair_msn_delay_2
+Act_RemoveRTC = missions\M02\M002_Sinclair2_msn.ini
+Act_RemoveRTC = missions\M02\M002_Melissa_nrml.ini
+Act_DeActTrig = Out_Zone_Base_for_Melissa_2
+Act_NNIds = 459848
+Act_ActTrig = mission_Sinclair_accept_2
+Act_ActTrig = HISTORY_511285
+
+[Trigger]
+nickname = HISTORY_511285
+Cnd_Timer = 4
+Act_NNIds = 511285, HISTORY
+
+[Trigger]
+nickname = mission_Sinclair_accept_2
+system = Br03
+Cnd_Timer = 3
+Act_SetNNObj = nn_log_06, OBJECTIVE_HISTORY
+Act_SetTitle = 459797
+Act_SetOffer = 459844
+Act_ActTrig = Exit_plaer_Br03_02_Base
+
+;----------------------------------- Миссия 3 В поисках.
+
+[Trigger]
+nickname = Exit_plaer_Br03_02_Base
+system = Br03
+Cnd_SpaceEnter = Br03
+Act_ActTrig = D01_NPC_pop
+
+[Trigger]
+nickname = D01_NPC_pop
+system = Br03
+Cnd_Timer = 0.5
+Act_Destroy = Melissa_fr, SILENT
+Act_ActTrig = D02_NPC_pop
+
+[Trigger]
+nickname = D02_NPC_pop
+system = Br03
+Cnd_Timer = 2
+Act_SpawnShip = Melissa_fr, no_ol, -6709, 100, 39425
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, -6709, 70, 39400
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_ActTrig = Attacks_NPC_pop
+Act_ActTrig = mission_Sinclair_msg
+
+
+[Trigger]
+nickname = tm_NNIds_03
+system = Br03
+Cnd_Timer = 5
+Act_NNIds = 459818
+repeatable = true
+
+[Trigger]
+nickname = Set_path_FR02_base
+system = Br03
+Cnd_Timer = 5
+Act_DeActTrig = tm_NNIds_03
+Act_NNIds = 459819
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_NNPath = 459846, 459846, Br03_to_Ew14, Br03
+Act_PlayerCanDock = False, Br03_to_Ew14
+;Act_ActTrig = out_Bw02_M3
+Act_ActTrig = rpop_00
+Act_ActTrig = rpop_msg00
+Act_ActTrig = out_Ew14_M3
+
+[Trigger]
+nickname = rpop_00
+system = Br03
+Cnd_Timer = 5
+Act_RandomPop = FALSE
+
+[Trigger]
+nickname = rpop_msg00
+system = Br03
+Cnd_DistVec = inside, Player, 42110, 0, 46565, 1300
+Act_NNIds = 459853
+
+[Trigger]
+nickname = out_Bw02_M3
+system = Bw02
+Cnd_NPCSystemEnter = Bw02, Player, Melissa_fr, Sinclair_fr
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_NNPath = 459846, 459846, Bw02_to_Ew14_hole, Bw02
+Act_PlayerCanDock = False, Bw02_to_Ew14_hole
+Act_ActTrig = out_Ew14_M3
+Act_ActTrig = rpop_msg01
+Act_Save = Save_out_Bw02_M3
+
+[Trigger]
+nickname = Save_out_Bw02_M3
+system = Bw02
+Cnd_Timer = 0.2
+Act_SpawnShip = Melissa_fr, no_ol, -15991, 30, 8715
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, -15901, -30, 8815
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_ActTrig = rpop_msg01
+Act_ActTrig = out_Ew14_M3
+
+[Trigger]
+nickname = rpop_msg01
+system = Bw02
+Cnd_DistVec = inside, Player, 4856, 0, 5801, 1300
+Act_NNIds = 459854
+
+[Trigger]
+nickname = out_Ew14_M3
+system = Ew14
+Cnd_NPCSystemEnter = Ew14, Player, Melissa_fr, Sinclair_fr
+Act_RandomPop = TRUE
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_NNPath = 459846, 459846, FR01_to_FR02, FR01
+Act_PlayerCanDock = False, Ew14_to_FR07
+Act_ActTrig = mission_Melissa_msg
+Act_ActTrig = rpop_msg02
+Act_ActTrig = out_FR07_M3
+Act_Save = Save_out_FR07_M3
+
+[Trigger]
+nickname = Save_out_FR07_M3
+system = Ew14
+Cnd_Timer = 0.2
+Act_SpawnShip = Melissa_fr, no_ol, -29711, 50, -36019
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, -29711, -50, -36019
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_ActTrig = mission_Melissa_msg
+Act_ActTrig = rpop_msg02
+Act_ActTrig = out_FR07_M3
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = rpop_msg02
+system = Ew14
+Cnd_DistVec = inside, Player, 42431, 0, 81520, 1300
+Act_NNIds = 459855
+
+[Trigger]
+nickname = mission_Melissa_msg
+system = Ew14
+Cnd_Timer = 15
+Act_ActTrig = tm_Melissa
+Act_ActTrig = Set_msg122
+
+[Trigger]
+nickname = Set_msg122
+system = Ew14
+Cnd_Timer = 0.4
+Act_Popupdialog = 459601, 459843, CLOSE
+
+;В Руссильоне
+[Trigger]
+nickname = out_FR07_M3
+system = FR07
+Cnd_NPCSystemEnter = FR07, Player, Melissa_fr, Sinclair_fr
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_PlayerCanDock = False, FR07_to_FR01
+;Act_ActTrig = out_FR01_M3
+
+Act_ActTrig = Sinclair_to_Melissa_msg
+Act_Save = Save_Zone_Base_for, 459852
+Act_ActTrig = rpop_msg03
+Act_ActTrig = FR07_Melissa_msg
+Act_Save = Save_out_FR01_M3
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = Save_out_FR01_M3
+system = FR07
+Cnd_Timer = 0.2
+Act_SpawnShip = Melissa_fr, no_ol, 22534, 60, -37491
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, 22534, 70, -37491
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_ActTrig = rpop_msg03
+Act_ActTrig = FR07_Melissa_msg
+;Act_ActTrig = out_FR01_M3
+Act_ActTrig = In_Zone_Base_for_Pier_es
+Act_ActTrig = In_Zone_Base_for_Pier
+Act_ActTrig = Sinclair_to_Melissa_msg
+Act_Save = Save_Zone_Base_for, 459852
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = rpop_msg03
+system = FR07
+Cnd_DistVec = inside, Player, -10428, 0, 74969, 1300
+Act_NNIds = 459856
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = FR07_Melissa_msg
+system = FR07
+Cnd_Timer = 20
+Act_ActTrig = tm_Melissa
+Act_ActTrig = Set_msg_FR07
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = Set_msg_FR07
+system = FR07
+Cnd_Timer = 0.4
+Act_Popupdialog = 459601, 459858, CLOSE
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = out_FR01_M3
+system = FR01
+Cnd_NPCSystemEnter = FR01, Player, Melissa_fr, Sinclair_fr
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_PlayerCanDock = False, FR01_to_FR02
+Act_ActTrig = rpop_msg04
+Act_ActTrig = out_FR02_M3
+Act_Save = Save_out_FR02_M3
+
+[Trigger]
+nickname = Save_out_FR02_M3
+system = FR01
+Cnd_Timer = 0.2
+Act_SpawnShip = Melissa_fr, no_ol, 22534, -75, -40291
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, 22434, -75, -40291
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_GiveObjList = Melissa_fr, escort_Player
+Act_GiveObjList = Sinclair_fr, escort_Player
+Act_ActTrig = rpop_msg04
+Act_ActTrig = out_FR02_M3
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = rpop_msg04
+system = FR01
+Cnd_DistVec = inside, Player, 955, 0, 81374, 1300
+Act_NNIds = 459857
+
+[ObjList]
+nickname = escort_Player_sp
+SetPriority = ALWAYS_EXECUTE
+BreakFormation = no_params
+follow = Player, 500, -300, 50, -200, 50000
+
+[Trigger]
+nickname = out_FR02_M3
+system = FR02
+Cnd_NPCSystemEnter = FR02, Player, Melissa_fr, Sinclair_fr
+Act_GiveObjList = Melissa_fr, escort_Player_sp
+Act_GiveObjList = Sinclair_fr, escort_Player_sp
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_SetNNObj = NNObj_stop_02
+Act_ActTrig = In_Zone_Base_for_Pier_es
+Act_ActTrig = In_Zone_Base_for_Pier
+Act_ActTrig = Sinclair_to_Melissa_msg
+Act_Save = Save_Zone_Base_for, 459852
+
+[Trigger]
+nickname = Save_Zone_Base_for
+system = FR02
+Cnd_Timer = 0.2
+Act_SetNNObj = NNObj_stop_02
+Act_SpawnShip = Melissa_fr, no_ol, 22534, -75, -40291
+Act_SetVibe = Melissa_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Melissa_fr, true, false, 0.900000
+Act_SpawnShip = Sinclair_fr, no_ol, 22434, -75, -40291
+Act_SetVibe = Sinclair_fr, Player, REP_FRIEND_THRESHOLD
+Act_Invulnerable = Sinclair_fr, true, false, 0.900000
+Act_SetVibe = Sinclair_fr, Melissa_fr, REP_FRIEND_THRESHOLD
+Act_SetVibe = Melissa_fr, Sinclair_fr, REP_FRIEND_THRESHOLD
+Act_MarkObj = Melissa_fr, 1
+Act_MarkObj = Sinclair_fr, 1
+Act_GiveObjList = Melissa_fr, escort_Player_sp
+Act_GiveObjList = Sinclair_fr, escort_Player_sp
+Act_ActTrig = In_Zone_Base_for_Pier_es
+Act_ActTrig = In_Zone_Base_for_Pier
+Act_ActTrig = Sinclair_to_Melissa_msg
+
+[Trigger]
+nickname = Sinclair_to_Melissa_msg
+system = FR02
+Cnd_Timer = 3
+Act_NNPath = 459851, 459851, FR02_03_Base, FR02
+Act_EtherComm = juni, 216505, Player, DX_M02_0000_sinclair, -1, pl_female3_head, sc_female1_body
+Act_ActTrig = Sinclair_to_msg2
+Act_GiveObjList = Melissa_fr, escort_Player_sp
+Act_GiveObjList = Sinclair_fr, escort_Player_sp
+
+[Trigger]
+nickname = Sinclair_to_msg2
+system = FR02
+Cnd_Timer = 0.4
+Act_Popupdialog = 459601, 459850, CLOSE
+Act_ActTrig = Sinclair_to_NNPath
+Act_SetRep = Player, fc_c_grp, -0.3
+Act_SetRep = Player, fc_rh_grp, -0.3
+Act_SetRep = Player, fr_pr_grp, -0.3
+Act_SetRep = Player, fr_fpr_grp, -0.3
+
+[Trigger]
+nickname = Sinclair_to_NNPath
+system = FR02
+Cnd_Timer = 0.4
+Act_NNPath = 459851, 459851, FR02_03_Base, FR02
