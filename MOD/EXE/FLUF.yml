@@ -1,0 +1,6 @@
+logLevel: Info
+logSinks:
+  - Console
+modules:
+  - FLUF.UI.dll
+  - ship_dealer_enhancements.dll
